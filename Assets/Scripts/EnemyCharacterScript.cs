@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyCharacterScript : MonoBehaviour
@@ -9,6 +11,7 @@ public class EnemyCharacterScript : MonoBehaviour
     [SerializeField]
     private int hitPoints = 20;
     [SerializeField] private int currHP;
+    private bool isDead = false;
 
     [SerializeField]
     private int attackDamage = 2;
@@ -25,6 +28,44 @@ public class EnemyCharacterScript : MonoBehaviour
 
     public Transform attackPoint;
     public LayerMask enemyLayers;
+
+    public static List<EnemyCharacterScript> enemyList = new List<EnemyCharacterScript>();
+
+    public static List<EnemyCharacterScript> GetEnemyList()
+    {
+        return enemyList;
+    }
+
+    public static EnemyCharacterScript GetClosestEnemy(Vector3 position, float maxRange)
+    {
+        EnemyCharacterScript closest = null;
+        foreach (EnemyCharacterScript enemy in enemyList)
+        {
+            if(enemy.isDead) continue;
+            if(Vector3.Distance(position, enemy.GetPosition()) <= maxRange)
+            {
+                if(closest == null) closest = enemy;
+                else
+                {
+                    if(Vector3.Distance(position, enemy.GetPosition()) < Vector3.Distance(position, closest.GetPosition())){
+                        closest = enemy;
+                    }
+                }
+            }
+        }
+
+        return closest;
+    }
+
+    public Vector3 GetPosition()
+    {
+        return this.transform.position;
+    }
+
+    private void Awake()
+    {
+        enemyList.Add(this);
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -82,6 +123,8 @@ public class EnemyCharacterScript : MonoBehaviour
 
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
+        isDead = true;
+        enemyList.Remove(this);
         DoDelayAction(1);
     }
 

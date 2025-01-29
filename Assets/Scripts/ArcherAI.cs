@@ -10,52 +10,73 @@ public class ArcherAI : MonoBehaviour
     private GameObject currentTarget;
 
     //Combat stats
-    [SerializeField]  private float attackRate = 1f;
-    [SerializeField]  private float nextAttackTime = 1f;
+    [SerializeField]  private float shootTimerMax;
+    [SerializeField]  private float shootTimer;
     [SerializeField]  private int attackDamage = 2;
-    public Transform attackPoint;
-    public LayerMask enemyLayers;
-    public float attackRange = 12f;
-    private bool enemyFound = false;
-    private Collider2D[] hitEnemies;
+    public float attackRange;
+    private EnemyCharacterScript enemy;
+    private Vector3 projectileSpawnPoint;
+    
+
+    private void Awake()
+    {
+        projectileSpawnPoint = transform.Find("ProjectileSpawnPoint").position;
+
+        attackRange = 10f;
+        shootTimerMax = .5f;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
-
-        animator.SetBool("IsIdle", true);
+        //Anim state 1 = Idle animation
+        animator.SetInteger("AnimState", 1);
     }
 
     // Update is called once per frame
     void Update()
     {
-        hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
-        if (hitEnemies.Length > 0)
+        shootTimer -= Time.deltaTime;
+
+        if (shootTimer <= 0f)
         {
-            if (Time.time >= nextAttackTime)
-            {
-                Attack();
-                nextAttackTime = Time.time + 1f / attackRate;
+            shootTimer = shootTimerMax;
 
+            EnemyCharacterScript enemy = GetClosestEnemy();
+            if (enemy != null)
+            {
+                ProjectileArrow.CreateArrow(projectileSpawnPoint, enemy.GetPosition());
+                Attack(enemy);
+            }
+            else
+            {
+                animator.SetInteger("AnimState", 1);
             }
         }
-    }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
-            return;
-
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }
-
-    private void Attack()
-    {
-        animator.SetTrigger("Attack");
-
-        hitEnemies[0].GetComponent<EnemyCharacterScript>().TakeDamage(attackDamage);
         
     }
+
+    private EnemyCharacterScript GetClosestEnemy()
+    {
+        return EnemyCharacterScript.GetClosestEnemy(transform.position, attackRange);
+    }
+
+    private void Attack(EnemyCharacterScript enemy)
+    {
+        //Anim state 2 = Attack animation
+        animator.SetInteger("AnimState", 2);
+
+        enemy.TakeDamage(attackDamage);
+        
+    }
+
+    public void SetEnemy(EnemyCharacterScript enemy)
+    {
+        this.enemy = enemy;
+    }
+
+    
 }

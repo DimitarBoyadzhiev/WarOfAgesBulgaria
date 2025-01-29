@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000010464396976}
   - component: {fileID: 95000013227593822}
   - component: {fileID: -1605197763893520556}
-  - component: {fileID: 7258195480591690629}
+  - component: {fileID: 5139971244881568500}
   m_Layer: 9
   m_Name: Peasant
   m_TagString: Archer
@@ -73,47 +73,21 @@ MonoBehaviour:
   attackRate: 1
   nextAttackTime: 1
   attackDamage: 3
-  attackPoint: {fileID: 1695879167806952784}
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 256
   attackRange: 10
---- !u!58 &7258195480591690629
-CircleCollider2D:
+  pfProjectileArrow: {fileID: 4396277012647222014, guid: bf206f75359893e4897c1b120d83fc4e, type: 3}
+--- !u!114 &5139971244881568500
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010854855540}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 10
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75061df6f308fe44a9c3c87acc9d51b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 10
 --- !u!1 &1000011210365404
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,7 +801,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1695879167806952784}
   m_Layer: 9
-  m_Name: AttackPoint
+  m_Name: ProjectileSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -842,7 +816,7 @@ Transform:
   m_GameObject: {fileID: 9141257752838084362}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.632, y: 1.166, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
