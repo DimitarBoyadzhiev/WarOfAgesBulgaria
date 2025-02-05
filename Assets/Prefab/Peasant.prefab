@@ -70,11 +70,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f28370285b0f6a24db12f630e191c6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRate: 1
-  nextAttackTime: 1
+  shootTimerMax: 0
+  shootTimer: 0
   attackDamage: 3
   attackRange: 10
-  pfProjectileArrow: {fileID: 4396277012647222014, guid: bf206f75359893e4897c1b120d83fc4e, type: 3}
 --- !u!114 &5139971244881568500
 MonoBehaviour:
   m_ObjectHideFlags: 0
