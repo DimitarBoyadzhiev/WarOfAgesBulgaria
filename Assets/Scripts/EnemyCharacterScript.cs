@@ -29,6 +29,8 @@ public class EnemyCharacterScript : MonoBehaviour
     public Transform attackPoint;
     public LayerMask enemyLayers;
 
+    private int score = 10;
+
     public static List<EnemyCharacterScript> enemyList = new List<EnemyCharacterScript>();
 
     public static List<EnemyCharacterScript> GetEnemyList()
@@ -122,8 +124,11 @@ public class EnemyCharacterScript : MonoBehaviour
         m_animator.SetBool("IsDead", true);
 
         GetComponent<Collider2D>().enabled = false;
+        GetComponent<CircleCollider2D>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
         this.enabled = false;
         isDead = true;
+        ScoreManager.Instance.AddScore(score);
         enemyList.Remove(this);
         DoDelayAction(1);
     }
