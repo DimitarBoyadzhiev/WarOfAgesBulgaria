@@ -11,9 +11,9 @@ public class HighscoreTable : MonoBehaviour
     private Transform entryTemplate;
     private List<Transform> highscoreEntryTransformList;
 
-
     private void Awake()
     {
+
         entryContainer = transform.Find("highscoreEntryContainer");
         entryTemplate = entryContainer.Find("highscoreEntryTemplate");
 
@@ -85,6 +85,11 @@ public class HighscoreTable : MonoBehaviour
         }
 
         transformList.Add(entryTransform);
+    }
+
+    public void AddEntry(int score, string name)
+    {
+        AddHighscoreEntry(score, name);
     }
 
     private void AddHighscoreEntry(int score, string name)
