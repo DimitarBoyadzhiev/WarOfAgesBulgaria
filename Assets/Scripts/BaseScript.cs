@@ -8,9 +8,15 @@ public class BaseScript : MonoBehaviour
     private GameObject archer;
     [SerializeField]
     private GameObject archerSpawnPoint;
+    public bool isSpawnedArcher;
+    public int archerLevel;
+
 
     [SerializeField] private int maxHP = 250;
     [SerializeField] private int currentHP;
+
+    public float cooldown;
+    float lastSpawn;
 
     public HealthBar healthBar;
 
@@ -33,10 +39,10 @@ public class BaseScript : MonoBehaviour
             Die();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(100);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    TakeDamage(100);
+        //}
         
     }
 
@@ -53,13 +59,31 @@ public class BaseScript : MonoBehaviour
 
     public void SpawnSolider()
     {
+        if(Time.time - lastSpawn < cooldown)
+        {
+            return;
+        }
+        lastSpawn = Time.time;
         Instantiate(soldier);
     }
 
     public void SpawnArcher()
     {
+        if (!isSpawnedArcher)
+        {
+            isSpawnedArcher = true;
+            Instantiate(archer);
+            archer.transform.position = archerSpawnPoint.transform.position;
+            archerLevel = 1;
+        }
+    }
 
-        Instantiate(archer);
-        archer.transform.position = archerSpawnPoint.transform.position;
+    public void UpgradeArcher()
+    {
+        if( archerLevel < 3)
+        {
+            archerLevel++;
+            ArcherAI.instance.LevelUp();
+        }
     }
 }

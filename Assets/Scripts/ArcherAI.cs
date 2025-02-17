@@ -5,6 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class ArcherAI : MonoBehaviour
 {
+    public static ArcherAI instance;
 
     private Animator animator;
     private GameObject currentTarget;
@@ -20,6 +21,7 @@ public class ArcherAI : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         projectileSpawnPoint = transform.Find("ProjectileSpawnPoint").position;
 
         attackRange = 10f;
@@ -55,8 +57,12 @@ public class ArcherAI : MonoBehaviour
                 animator.SetInteger("AnimState", 1);
             }
         }
+    }
 
-        
+    public void LevelUp()
+    {
+        attackDamage += 2;
+        attackRange += 1f;
     }
 
     private EnemyCharacterScript GetClosestEnemy()

@@ -154,13 +154,15 @@ public class EnemyCharacterScript : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
         //Damage enemies
-        hitEnemies[0].GetComponent<CharacterScript>().TakeDamage(attackDamage);
-        //foreach (Collider2D enemy in hitEnemies)
-        //{
-        //    enemy.GetComponent<CharacterScript>().TakeDamage(attackDamage);
-        //}
+        if (hitEnemies[0].GetComponent<CharacterScript>())
+        {
+            hitEnemies[0].GetComponent<CharacterScript>().TakeDamage(attackDamage);
+        }
 
-        
+        if (hitEnemies[0].GetComponent<BaseScript>())
+        {
+            hitEnemies[0].GetComponent<BaseScript>().TakeDamage(attackDamage);
+        }
     }
 
     private void OnDrawGizmosSelected()

@@ -218,9 +218,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1
   hitPoints: 10
-  attackDamage: 2
+  currHP: 0
+  attackDamage: 50
   attackRange: 0.46
-  attackRate: 0.5
+  attackRate: 1
   attackPoint: {fileID: 4111088125237183593}
   enemyLayers:
     serializedVersion: 2

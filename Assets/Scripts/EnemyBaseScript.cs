@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyBaseScript : MonoBehaviour
@@ -6,15 +7,14 @@ public class EnemyBaseScript : MonoBehaviour
     [SerializeField]
     private GameObject soldier;
 
-    public float spawnTime;
-    public float spawnDelay;
-
-
     [SerializeField] private int maxHP = 250;
     [SerializeField] private int currentHP;
 
     public HealthBar healthBar;
+    public float cooldown;
+    float lastSpawn;
 
+    private int deathScore = 1000;
 
     private void Awake()
     {
@@ -26,16 +26,12 @@ public class EnemyBaseScript : MonoBehaviour
     void Start()
     {
         healthBar.SetMaxHealth(maxHP);
-
-        InvokeRepeating("SpawnSolider", spawnTime, spawnDelay);
     }
 
     void Update()
     {
-        if (currentHP <= 0)
-        {
-            Die();
-        }
+
+        SpawnSolider();
 
     }
 
@@ -43,15 +39,27 @@ public class EnemyBaseScript : MonoBehaviour
     {
         currentHP -= damage;
         healthBar.SetHealth(currentHP);
+        ScoreManager.Instance.AddScore(damage);
+
+        if (currentHP <= 0)
+        {
+            Die();
+        }
     }
 
     private void Die()
     {
+        ScoreManager.Instance.AddScore(deathScore);
         GameManager.instance.EndGame();
     }
 
     public void SpawnSolider()
     {
+        if (Time.time - lastSpawn < cooldown)
+        {
+            return;
+        }
+        lastSpawn = Time.time;
         Instantiate(soldier);
     }
 }

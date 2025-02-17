@@ -74,8 +74,15 @@ public class CharacterScript : MonoBehaviour
         //Detects enemies in attack range
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
-        //Damage enemies
-        hitEnemies[0].GetComponent<EnemyCharacterScript>().TakeDamage(attackDamage);
+        if (hitEnemies[0].GetComponent<EnemyCharacterScript>())
+        {
+            hitEnemies[0].GetComponent<EnemyCharacterScript>().TakeDamage(attackDamage);
+        }
+
+        if (hitEnemies[0].GetComponent<EnemyBaseScript>())
+        {
+            hitEnemies[0].GetComponent<EnemyBaseScript>().TakeDamage(attackDamage);
+        }
 
     }
 
@@ -118,15 +125,10 @@ public class CharacterScript : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-
-    //}
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         moveTrue = false;
-        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Enemy")
         {
             m_animator.SetInteger("AnimState", 1);
         }
@@ -136,6 +138,7 @@ public class CharacterScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
+            moveTrue = false;
             enemyFound = true;
         }
 
