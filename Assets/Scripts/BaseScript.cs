@@ -8,8 +8,15 @@ public class BaseScript : MonoBehaviour
     private GameObject archer;
     [SerializeField]
     private GameObject archerSpawnPoint;
+
+    public PlayerUIController controllerUI;
+
     public bool isSpawnedArcher;
     public int archerLevel;
+
+    public GoldBar soldierGoldBar;
+    public GoldBar archerGoldBar;
+    public GoldBar archerUgradeGoldBar;
 
 
     [SerializeField] private int maxHP = 250;
@@ -20,6 +27,9 @@ public class BaseScript : MonoBehaviour
 
     public HealthBar healthBar;
 
+    public int soldierGoldCost = 5;
+    public int archerGoldCost = 15;
+
     private void Awake()
     {
         currentHP = maxHP;
@@ -29,6 +39,9 @@ public class BaseScript : MonoBehaviour
     void Start()
     {
         healthBar.SetMaxHealth(maxHP);
+        soldierGoldBar.SetMaxGold(soldierGoldCost);
+        archerGoldBar.SetMaxGold(archerGoldCost);
+        archerUgradeGoldBar.SetMaxGold(archerGoldCost);
     }
 
     // Update is called once per frame
@@ -59,31 +72,41 @@ public class BaseScript : MonoBehaviour
 
     public void SpawnSolider()
     {
-        if(Time.time - lastSpawn < cooldown)
+        if(GameManager.instance.gold > soldierGoldCost)
         {
-            return;
+            if(Time.time - lastSpawn < cooldown)
+            {
+                return;
+            }
+            lastSpawn = Time.time;
+            Instantiate(soldier);
+            GameManager.instance.gold -= soldierGoldCost;
         }
-        lastSpawn = Time.time;
-        Instantiate(soldier);
     }
 
     public void SpawnArcher()
     {
-        if (!isSpawnedArcher)
+        if (GameManager.instance.gold > archerGoldCost)
         {
-            isSpawnedArcher = true;
-            Instantiate(archer);
-            archer.transform.position = archerSpawnPoint.transform.position;
-            archerLevel = 1;
+            if (!isSpawnedArcher)
+            {
+                isSpawnedArcher = true;
+                Instantiate(archer);
+                archer.transform.position = archerSpawnPoint.transform.position;
+                archerLevel = 1;
+                GameManager.instance.gold -= archerGoldCost;
+                controllerUI.DisableArcherBuyButton();
+            }
         }
     }
 
     public void UpgradeArcher()
     {
-        if( archerLevel < 3)
+        if (GameManager.instance.gold > archerGoldCost)
         {
             archerLevel++;
             ArcherAI.instance.LevelUp();
+            GameManager.instance.gold -= archerGoldCost;
         }
     }
 }

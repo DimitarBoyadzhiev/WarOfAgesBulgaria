@@ -31,6 +31,8 @@ public class EnemyCharacterScript : MonoBehaviour
 
     private int score = 10;
 
+    private int goldDropAmout = 1;
+
     public static List<EnemyCharacterScript> enemyList = new List<EnemyCharacterScript>();
 
     public static List<EnemyCharacterScript> GetEnemyList()
@@ -129,6 +131,7 @@ public class EnemyCharacterScript : MonoBehaviour
         this.enabled = false;
         isDead = true;
         ScoreManager.Instance.AddScore(score);
+        GameManager.instance.AddGold(goldDropAmout);
         enemyList.Remove(this);
         DoDelayAction(1);
     }
