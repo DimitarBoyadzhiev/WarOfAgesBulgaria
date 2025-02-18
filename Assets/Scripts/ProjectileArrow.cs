@@ -22,20 +22,20 @@ public class ProjectileArrow : MonoBehaviour
     private void Update()
     {
         Vector3 moveDir = (targetPosition - transform.position).normalized;
-
         float moveSpeed = 20f;
 
         transform.position += moveDir * moveSpeed * Time.deltaTime;
 
-        float angle = GetAngleFromVectorFloat(moveDir);
-        transform.eulerAngles = new Vector3 (0, 0, angle);
+        float angle = GetAngleFromVectorFloat(moveDir) - 90f; // Adjust for correct rotation
+        transform.eulerAngles = new Vector3(0, 0, angle);
 
         float destroySelfDistance = 1f;
-        if(Vector3.Distance(transform.position, targetPosition) < destroySelfDistance )
+        if (Vector3.Distance(transform.position, targetPosition) < destroySelfDistance)
         {
             Destroy(gameObject);
         }
     }
+
 
     private float GetAngleFromVectorFloat(Vector3 dir)
     {

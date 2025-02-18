@@ -10,6 +10,9 @@ public class EnemyBaseScript : MonoBehaviour
     [SerializeField] private int maxHP = 250;
     [SerializeField] private int currentHP;
 
+    [SerializeField] private GameObject soldierSpawnPoint;
+
+
     public HealthBar healthBar;
     public float cooldown;
     float lastSpawn;

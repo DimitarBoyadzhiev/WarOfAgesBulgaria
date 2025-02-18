@@ -21,7 +21,7 @@ public class CharacterScript : MonoBehaviour
     public LayerMask enemyLayers;
 
     protected bool moveTrue = true;
-    private bool enemyFound = false;
+    public bool enemyFound = false;
 
     private Animator m_animator;
 
@@ -127,9 +127,10 @@ public class CharacterScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        moveTrue = false;
         if (collision.gameObject.tag == "Enemy")
         {
+            moveTrue = false;
+            enemyFound = true;
             m_animator.SetInteger("AnimState", 1);
         }
     }
@@ -142,6 +143,23 @@ public class CharacterScript : MonoBehaviour
             enemyFound = true;
         }
 
+        if (collision.gameObject.tag == "Player")
+        {
+            if (collision.gameObject.GetComponent<CharacterScript>())
+            {
+                if (collision.gameObject.GetComponent<CharacterScript>().enemyFound == true)
+                {
+                    moveTrue = false;
+                }
+                else
+                {
+                    moveTrue = true;
+                }
+            }
+            
+        }
+
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)

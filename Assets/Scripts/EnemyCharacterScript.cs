@@ -178,9 +178,10 @@ public class EnemyCharacterScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        moveTrue = false;
         if (collision.gameObject.tag == "Player")
         {
+            moveTrue = false;
+
             m_animator.SetInteger("AnimState", 1);
         }
     }

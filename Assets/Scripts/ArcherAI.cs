@@ -25,7 +25,7 @@ public class ArcherAI : MonoBehaviour
         projectileSpawnPoint = transform.Find("ProjectileSpawnPoint").position;
 
         attackRange = 10f;
-        shootTimerMax = .5f;
+        shootTimerMax = 1f;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

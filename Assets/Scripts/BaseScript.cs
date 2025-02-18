@@ -8,6 +8,7 @@ public class BaseScript : MonoBehaviour
     private GameObject archer;
     [SerializeField]
     private GameObject archerSpawnPoint;
+    [SerializeField] private GameObject soldierSpawnPoint;
 
     public PlayerUIController controllerUI;
 
