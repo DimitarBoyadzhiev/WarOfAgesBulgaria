@@ -50,13 +50,7 @@ public class BaseScript : MonoBehaviour
         if (currentHP <= 0)
         {
             Die();
-        }
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    TakeDamage(100);
-        //}
-        
+        }        
     }
 
     public void TakeDamage(int damage)
@@ -72,7 +66,7 @@ public class BaseScript : MonoBehaviour
 
     public void SpawnSolider()
     {
-        if(GameManager.instance.gold > soldierGoldCost)
+        if(GameManager.instance.gold >= soldierGoldCost)
         {
             if(Time.time - lastSpawn < cooldown)
             {
@@ -86,7 +80,7 @@ public class BaseScript : MonoBehaviour
 
     public void SpawnArcher()
     {
-        if (GameManager.instance.gold > archerGoldCost)
+        if (GameManager.instance.gold >= archerGoldCost)
         {
             if (!isSpawnedArcher)
             {
@@ -102,7 +96,7 @@ public class BaseScript : MonoBehaviour
 
     public void UpgradeArcher()
     {
-        if (GameManager.instance.gold > archerGoldCost)
+        if (GameManager.instance.gold >= archerGoldCost)
         {
             archerLevel++;
             ArcherAI.instance.LevelUp();

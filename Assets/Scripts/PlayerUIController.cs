@@ -1,12 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class PlayerUIController : MonoBehaviour
 {
     [SerializeField] private BaseScript playerBase;
     public Button archerButton;
+    public Button backButton;
     private Button archerUpgradeButton;
     public Button archerUpgradeMAX;
     private TextMeshProUGUI goldText;
@@ -49,5 +50,13 @@ public class PlayerUIController : MonoBehaviour
             archerUpgradeMAX.gameObject.SetActive(true);
             archerUpgradeMAX.interactable = false;
         }
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1f;
+        ScoreManager.Instance.ResetScore();
+        GameManager.instance.DestroyGameManager();
     }
 }

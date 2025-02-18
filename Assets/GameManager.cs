@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,11 +22,26 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject); // Keeps this GameObject active across scenes
+            SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to sceneLoaded event
         }
         else
         {
             Destroy(gameObject); // Prevents duplicates
         }
+        gameObject.SetActive(false);
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Level01") // Check if Level01 is loaded
+        {
+            gameObject.SetActive(true); // Activate GameObject
+        }
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe to prevent memory leaks
     }
 
     private void Update()
@@ -51,5 +67,10 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         ScoreManager.Instance.GameOver();
+    }
+
+    public void DestroyGameManager()
+    {
+        Destroy(gameObject);
     }
 }

@@ -1,0 +1,12 @@
+# ninja log v5
+63	1354	7615834884834510	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	a137ebe4f359e24f
+41	3466	7615834905547660	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	679b242851661e0e
+57	3508	7615834909372958	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	ddf6b992051ac8d3
+16	3815	7615834910347690	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	479a0aa9110c8fea
+30	3862	7615834911729948	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	7bc4b958debfd22b
+48	3872	7615834911603854	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	80322a448271d547
+2	3924	7615834913477858	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	7f1a236fae989be6
+1400	4096	7615834908429824	C:/Users/dimit/Desktop/Mobile AppGame/WarOfAgesBulgaria/WarOfAgesBulgaria/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/e4k116g2/obj/arm64-v8a/libswappywrapper.so	5ad079174394a82a
+10	4747	7615834921493378	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	b803d6caaa3bca93
+24	4816	7615834923035357	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	bf454619ec39c0ad
+4817	5234	7615834927678451	C:/Users/dimit/Desktop/Mobile AppGame/WarOfAgesBulgaria/WarOfAgesBulgaria/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/e4k116g2/obj/arm64-v8a/libgame.so	80741e248ad4f6ee
