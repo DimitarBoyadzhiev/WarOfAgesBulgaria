@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Collections;
+using System.Data;
+using MySql.Data.MySqlClient;
 
 public class HighscoreTable : MonoBehaviour
 {
@@ -11,8 +15,7 @@ public class HighscoreTable : MonoBehaviour
     private Transform entryTemplate;
     private List<Transform> highscoreEntryTransformList;
     [SerializeField] private bool useRemoteDatabase = true;
-    [SerializeField] private bool useRemoteDatabase = true;
-    [SerializeField] private string dbConnectionString = "Server=sql7.freesqldatabase.com:3306;Database=sql7768970;User ID=sql7768970;Password=V939TvZavH;";
+    [SerializeField] private string dbConnectionString = "-";
     [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private int maxHighscoresToDisplay = 10;
 

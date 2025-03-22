@@ -2,6 +2,9 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Data;
+using MySql.Data.MySqlClient;
 
 public class GameOverPanel : MonoBehaviour
 {
@@ -9,7 +12,7 @@ public class GameOverPanel : MonoBehaviour
     private Button submitButton;
     public enum DatabaseType { MySQL }
     [SerializeField] private HighscoreTable highscoreTable;
-    [SerializeField] private string dbConnectionString = "Server=sql7.freesqldatabase.com:3306;Database=sql7768970;User ID=sql7768970;Password=V939TvZavH;";
+    [SerializeField] private string dbConnectionString = "-";
     [SerializeField] private DatabaseType dbType = DatabaseType.MySQL;
     [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private int maxHighscoresToDisplay = 10;
@@ -154,7 +157,7 @@ public class GameOverPanel : MonoBehaviour
             
             // Execute the command
             int rowsAffected = dbCommand.ExecuteNonQuery();
-            
+
             return rowsAffected > 0;
         }
         finally
@@ -170,6 +173,10 @@ public class GameOverPanel : MonoBehaviour
                 dbConnection.Close();
                 dbConnection.Dispose();
             }
+            if (highscoreTable != null) {
+                highscoreTable.AddEntry(score, playerName);
+            }
+            
         }
     }
 
