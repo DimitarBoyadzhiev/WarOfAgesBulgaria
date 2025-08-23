@@ -9,9 +9,6 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instance;
     public int Score { get; private set; }
     public TextMeshProUGUI scoreText;
-
-    public GameObject gameOverPanel; 
-    public TextMeshProUGUI finalScoreText;
     public Leaderboard leaderboard;
 
     void Awake()
@@ -20,18 +17,25 @@ public class ScoreManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); // Keeps this GameObject active across scenes
-
         }
         else
         {
             Destroy(gameObject); // Prevents duplicates
         }
+
+        leaderboard = GameObject.Find("LeaderboardMenu").GetComponent<Leaderboard>();
+
     }
 
     private void Start()
     {
 
         StartCoroutine(SetupRoutine());
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        leaderboard = GameObject.Find("LeaderboardGame").GetComponent<Leaderboard>();
     }
 
     private void Update()
@@ -46,6 +50,7 @@ public class ScoreManager : MonoBehaviour
     {
         yield return LoginRoutine();
         yield return leaderboard.FetchTopHighscoresRoutine();
+
     }
 
     IEnumerator LoginRoutine()
@@ -74,23 +79,11 @@ public class ScoreManager : MonoBehaviour
         if (canvas != null)
         {
             Transform scoreTextTransform = canvas.transform.Find("ScoreText");
-            Transform gameOverPanelTransform = canvas.transform.Find("GameOverPanel");
-            Transform finalScoreTextTransform = gameOverPanelTransform != null ? gameOverPanelTransform.Find("FinalScoreText") : null;
 
             if (scoreTextTransform != null)
             {
                 scoreText = scoreTextTransform.GetComponent<TextMeshProUGUI>();
                 UpdateScoreUI();
-            }
-
-            if (gameOverPanelTransform != null)
-            {
-                gameOverPanel = gameOverPanelTransform.gameObject;
-            }
-
-            if (finalScoreTextTransform != null)
-            {
-                finalScoreText = finalScoreTextTransform.GetComponent<TextMeshProUGUI>();
             }
         }
     }
@@ -125,12 +118,11 @@ public class ScoreManager : MonoBehaviour
     {
         Time.timeScale = 0f; // Pause the game
         StartCoroutine(GameOverRoutine());
-        gameOverPanel.SetActive(true); // Show the game over panel
-        finalScoreText.text = "Final Score: " + Score; // Display final score
     }
 
     IEnumerator GameOverRoutine()
     {
         yield return leaderboard.SubmitScoreRoutine(Score);
+        yield return leaderboard.FetchTopHighscoresRoutine();
     }
 }

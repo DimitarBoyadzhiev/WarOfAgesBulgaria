@@ -1,14 +1,12 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using LootLocker.Requests;
-using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance;
 
+    public GameObject panel;
 
 
     //Gold generation logic
@@ -70,6 +68,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         ScoreManager.Instance.GameOver();
+        panel.SetActive(true);
     }
 
     public void DestroyGameManager()

@@ -6,28 +6,10 @@ using TMPro;
 public class Leaderboard : MonoBehaviour
 {
 
-    public static Leaderboard Instance { get; private set; }
-
-    public GameOverPanel gameOverPanel;
-
     public TextMeshProUGUI playerNames;
     public TextMeshProUGUI playerScores;
 
     private string leaderboardKey = "global_highscore";
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // Keeps this GameObject active across scenes
-
-        }
-        else
-        {
-            Destroy(gameObject); // Prevents duplicates
-        }
-    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -94,6 +76,7 @@ public class Leaderboard : MonoBehaviour
         });
 
         yield return new WaitWhile(() => done == false);
+
     }
 
 
