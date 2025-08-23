@@ -1,3 +1,5 @@
+using LootLocker.Requests;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +12,7 @@ public class ScoreManager : MonoBehaviour
 
     public GameObject gameOverPanel; 
     public TextMeshProUGUI finalScoreText;
+    public Leaderboard leaderboard;
 
     void Awake()
     {
@@ -17,11 +20,18 @@ public class ScoreManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); // Keeps this GameObject active across scenes
+
         }
         else
         {
             Destroy(gameObject); // Prevents duplicates
         }
+    }
+
+    private void Start()
+    {
+
+        StartCoroutine(SetupRoutine());
     }
 
     private void Update()
@@ -30,6 +40,32 @@ public class ScoreManager : MonoBehaviour
         {
             FindScoreComponents();
         }
+    }
+
+    IEnumerator SetupRoutine()
+    {
+        yield return LoginRoutine();
+        yield return leaderboard.FetchTopHighscoresRoutine();
+    }
+
+    IEnumerator LoginRoutine()
+    {
+        bool done = false;
+        LootLockerSDKManager.StartGuestSession((response) =>
+        {
+            if (response.success)
+            {
+                Debug.Log("Player logged in!");
+                PlayerPrefs.SetString("PlayerID", response.player_id.ToString());
+                done = true;
+            }
+            else
+            {
+                Debug.Log("Failed to start session");
+                done = true;
+            }
+        });
+        yield return new WaitWhile(() => done == false);
     }
 
     void FindScoreComponents()
@@ -88,7 +124,13 @@ public class ScoreManager : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0f; // Pause the game
+        StartCoroutine(GameOverRoutine());
         gameOverPanel.SetActive(true); // Show the game over panel
         finalScoreText.text = "Final Score: " + Score; // Display final score
+    }
+
+    IEnumerator GameOverRoutine()
+    {
+        yield return leaderboard.SubmitScoreRoutine(Score);
     }
 }

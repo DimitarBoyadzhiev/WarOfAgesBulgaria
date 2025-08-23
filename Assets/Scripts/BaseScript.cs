@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BaseScript : MonoBehaviour
@@ -64,6 +65,8 @@ public class BaseScript : MonoBehaviour
     {
         GameManager.instance.EndGame();
     }
+
+    
 
     public void SpawnSolider()
     {

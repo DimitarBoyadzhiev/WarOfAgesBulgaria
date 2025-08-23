@@ -1,11 +1,14 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using LootLocker.Requests;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance;
+
 
 
     //Gold generation logic

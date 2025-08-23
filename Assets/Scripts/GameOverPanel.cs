@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GameOverPanel : MonoBehaviour
@@ -8,6 +10,7 @@ public class GameOverPanel : MonoBehaviour
     private TMP_InputField inputField;
     private Button submitButton;
     [SerializeField] private HighscoreTable highscoreTable;
+    private int score;
 
     private void Awake()
     {
@@ -17,7 +20,7 @@ public class GameOverPanel : MonoBehaviour
 
     public void Submit()
     {
-        int score = ScoreManager.Instance.Score;
+        score = ScoreManager.Instance.Score;
         string name = inputField.text;
 
         highscoreTable.AddEntry(score, name);

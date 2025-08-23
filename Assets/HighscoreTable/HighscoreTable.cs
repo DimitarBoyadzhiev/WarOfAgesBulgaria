@@ -1,11 +1,10 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HighscoreTable : MonoBehaviour
 {
+
 
     private Transform entryContainer;
     private Transform entryTemplate;
@@ -44,6 +43,7 @@ public class HighscoreTable : MonoBehaviour
         }
     }
 
+    
 
     private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList)
     {
