@@ -9,6 +9,7 @@ public class Leaderboard : MonoBehaviour
     public TextMeshProUGUI playerNames;
     public TextMeshProUGUI playerScores;
 
+    private int highScoresCount = 10; //in FetchTopHighscoresRoutine - determines the count of highscores to display
     private string leaderboardKey = "global_highscore";
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,6 +18,7 @@ public class Leaderboard : MonoBehaviour
         
     }
 
+    //Submit player's score to the online leaderboard
     public IEnumerator SubmitScoreRoutine(int scoreToSubmit)
     {
         bool done = false;
@@ -38,10 +40,11 @@ public class Leaderboard : MonoBehaviour
         yield return new WaitWhile(() => done == false);
     }
 
+    //Get selected number of highscores from online leaderboard
     public IEnumerator FetchTopHighscoresRoutine()
     {
         bool done = false;
-        LootLockerSDKManager.GetScoreList(leaderboardKey, 10, (response) =>
+        LootLockerSDKManager.GetScoreList(leaderboardKey, highScoresCount, (response) =>
         {
             if (response.success)
             {

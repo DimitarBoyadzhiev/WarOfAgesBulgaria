@@ -53,6 +53,7 @@ public class ScoreManager : MonoBehaviour
 
     }
 
+    //Login player to the online leaderboard with unique ID
     IEnumerator LoginRoutine()
     {
         bool done = false;

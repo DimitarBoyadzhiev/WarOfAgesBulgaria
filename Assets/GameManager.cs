@@ -1,3 +1,5 @@
+using LootLocker.Requests;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,7 +8,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    public GameObject panel;
+    public GameObject NameInputPanel;
+
+    public TMP_InputField playerNameInputField;
 
 
     //Gold generation logic
@@ -68,11 +72,27 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         ScoreManager.Instance.GameOver();
-        panel.SetActive(true);
+        NameInputPanel.SetActive(true);
     }
 
     public void DestroyGameManager()
     {
         Destroy(gameObject);
+    }
+
+    //Submit player name to leaderboard
+    public void SetPlayerName()
+    {
+        LootLockerSDKManager.SetPlayerName(playerNameInputField.text, (response) =>
+        {
+            if (response.success)
+            {
+                Debug.Log("Succesfully set player name!");
+            }
+            else
+            {
+                Debug.Log("Could not set player name " + response.errorData.message);
+            }
+        });
     }
 }
