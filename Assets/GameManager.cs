@@ -1,4 +1,5 @@
 using LootLocker.Requests;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,7 +27,6 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Keeps this GameObject active across scenes
             SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to sceneLoaded event
         }
         else
@@ -41,7 +41,13 @@ public class GameManager : MonoBehaviour
         if (scene.name == "Level01") // Check if Level01 is loaded
         {
             gameObject.SetActive(true); // Activate GameObject
+            Time.timeScale = 1f;
         }
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void OnDestroy()
@@ -80,19 +86,40 @@ public class GameManager : MonoBehaviour
         Destroy(gameObject);
     }
 
-    //Submit player name to leaderboard
-    public void SetPlayerName()
+    private void GetLeaderBoard()
     {
+        ScoreManager.Instance.FetchLeaderBoard();
+    }
+
+    public void OnSubmit()
+    {
+        StartCoroutine(SetPlayerName());
+        GetLeaderBoard();
+    }
+
+    float timeout = 10f;
+    float timer = 0f;
+    //Submit player name to leaderboard
+    private IEnumerator SetPlayerName()
+    {
+        bool done = false;
         LootLockerSDKManager.SetPlayerName(playerNameInputField.text, (response) =>
         {
             if (response.success)
             {
+                done = true;
                 Debug.Log("Succesfully set player name!");
             }
             else
             {
                 Debug.Log("Could not set player name " + response.errorData.message);
             }
+        });
+
+        yield return new WaitWhile(() =>
+        {
+            timer += Time.deltaTime;
+            return !done && timer < timeout;
         });
     }
 }

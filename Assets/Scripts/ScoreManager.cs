@@ -2,14 +2,12 @@ using LootLocker.Requests;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
     public int Score { get; private set; }
     public TextMeshProUGUI scoreText;
-    public Leaderboard leaderboard;
 
     void Awake()
     {
@@ -22,20 +20,11 @@ public class ScoreManager : MonoBehaviour
         {
             Destroy(gameObject); // Prevents duplicates
         }
-
-        leaderboard = GameObject.Find("LeaderboardMenu").GetComponent<Leaderboard>();
-
     }
 
     private void Start()
     {
-
         StartCoroutine(SetupRoutine());
-    }
-
-    private void OnLevelWasLoaded(int level)
-    {
-        leaderboard = GameObject.Find("LeaderboardGame").GetComponent<Leaderboard>();
     }
 
     private void Update()
@@ -46,11 +35,15 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    public void FetchLeaderBoard()
+    {
+        Leaderboard.instance.FetchLeaderBoard();
+    }
+
     IEnumerator SetupRoutine()
     {
         yield return LoginRoutine();
-        yield return leaderboard.FetchTopHighscoresRoutine();
-
+        Leaderboard.instance.FetchLeaderBoard();
     }
 
     //Login player to the online leaderboard with unique ID
@@ -118,12 +111,12 @@ public class ScoreManager : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0f; // Pause the game
-        StartCoroutine(GameOverRoutine());
+        //StartCoroutine(GameOverRoutine());
     }
 
-    IEnumerator GameOverRoutine()
-    {
-        yield return leaderboard.SubmitScoreRoutine(Score);
-        yield return leaderboard.FetchTopHighscoresRoutine();
-    }
+    //IEnumerator GameOverRoutine()
+    //{
+    //    //yield return StartCoroutine(leaderboard.SubmitScoreRoutine(Score));
+        
+    //}
 }

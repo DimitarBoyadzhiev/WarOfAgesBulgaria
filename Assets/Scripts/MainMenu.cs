@@ -7,6 +7,11 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Level01");
     }
+    
+    public void FetchLeaderBoard()
+    {
+        Leaderboard.instance.FetchLeaderBoard();
+    }
 
     public void QuitGame()
     {

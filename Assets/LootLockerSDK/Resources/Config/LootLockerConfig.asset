@@ -11,24 +11,26 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 182cd195a28310e479cddf7ff82822f8, type: 3}
   m_Name: LootLockerConfig
-  m_EditorClassIdentifier: 
-  apiKey: dev_a08d96154a1d4977b2a0a8db3f44747a
-  adminToken: d559bc5beac188273c58d6f1aa9948ee58c5b963
-  token: 
-  refreshToken: 
-  domainKey: tbmkt1kz
+  m_EditorClassIdentifier: lootlocker.lootlockersdk.runtime::LootLocker.LootLockerConfig
+  apiKey: dev_07e48ddf917e42be9316de311814d6c4
+  adminToken: 
+  domainKey: 
   game_version: 1.0.0.0
-  sdk_version: 5.3.0
-  deviceID: defaultPlayerId
-  playerULID: 
-  url: https://api.lootlocker.com/v1
-  adminUrl: https://tbmkt1kz.api.lootlocker.com/admin
-  playerUrl: https://tbmkt1kz.api.lootlocker.com/player
-  userUrl: https://tbmkt1kz.api.lootlocker.com/game
-  baseUrl: https://tbmkt1kz.api.lootlocker.com
-  clientSideRequestTimeOut: 180
-  currentDebugLevel: 0
+  sdk_version: 
   logLevel: 2
+  prettifyJson: 1
+  obfuscateLogs: 1
   logErrorsAsWarnings: 0
   logInBuilds: 0
   allowTokenRefresh: 1
+  enablePresence: 0
+  enablePresenceAutoConnect: 1
+  enablePresenceAutoDisconnectOnFocusChange: 0
+  enablePresenceInEditor: 1
+  url: https://api.lootlocker.com/v1
+  adminUrl: https://api.lootlocker.com/admin
+  playerUrl: https://api.lootlocker.com/player
+  userUrl: https://api.lootlocker.com/game
+  webSocketBaseUrl: wss://api.lootlocker.com/game
+  baseUrl: https://api.lootlocker.com
+  clientSideRequestTimeOut: 180

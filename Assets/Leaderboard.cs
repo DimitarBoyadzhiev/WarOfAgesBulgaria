@@ -1,21 +1,44 @@
-using UnityEngine;
 using LootLocker.Requests;
+using System;
 using System.Collections;
-using TMPro;
+using UnityEngine;
 
 public class Leaderboard : MonoBehaviour
 {
+    public static Leaderboard instance;
 
-    public TextMeshProUGUI playerNames;
-    public TextMeshProUGUI playerScores;
+    [HideInInspector]
+    public string playerNamesText;
+    [HideInInspector]
+    public string playerScoresText;
+
+    public event Action OnLoadFetchFinished;
 
     private int highScoresCount = 10; //in FetchTopHighscoresRoutine - determines the count of highscores to display
-    private string leaderboardKey = "global_highscore";
+    private string leaderboardKey = "score";
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Keeps this GameObject active across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Prevents duplicates
+        }
+        //gameObject.SetActive(false);
+    }
+
+    private void Start()
+    {
+        FetchLeaderBoard();
+    }
+
+    private void SubmitScorre()
+    {
+        StartCoroutine(SubmitScoreRoutine(ScoreManager.Instance.Score));
     }
 
     //Submit player's score to the online leaderboard
@@ -40,8 +63,16 @@ public class Leaderboard : MonoBehaviour
         yield return new WaitWhile(() => done == false);
     }
 
+    public void FetchLeaderBoard()
+    {
+        StartCoroutine(FetchTopHighscoresRoutine());
+    }
+
+
+    float timeout = 10f;
+    float timer = 0f;
     //Get selected number of highscores from online leaderboard
-    public IEnumerator FetchTopHighscoresRoutine()
+    private IEnumerator FetchTopHighscoresRoutine()
     {
         bool done = false;
         LootLockerSDKManager.GetScoreList(leaderboardKey, highScoresCount, (response) =>
@@ -68,8 +99,9 @@ public class Leaderboard : MonoBehaviour
                     tempPlayerNames += "\n";
                 }
                 done = true;
-                playerNames.text = tempPlayerNames;
-                playerScores.text = tempPlayerScores;
+                playerNamesText = tempPlayerNames;
+                playerScoresText = tempPlayerScores;
+                OnLoadFetchFinished?.Invoke();
             }
             else
             {
@@ -78,7 +110,11 @@ public class Leaderboard : MonoBehaviour
             }
         });
 
-        yield return new WaitWhile(() => done == false);
+        yield return new WaitWhile(() =>
+        {
+            timer += Time.deltaTime;
+            return !done && timer < timeout;
+        });
 
     }
 
